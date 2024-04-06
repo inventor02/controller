@@ -4,27 +4,48 @@ import sys
 import signal
 from common.build import *
 
-PORT = 8000
+PORT = sys.argv[1] if len(sys.argv) > 1 else 80
+CONFIG_FILE_LOCATION = sys.argv[2] if len(sys.argv) > 2 else "config.yaml"
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/info":
             self.get_info()
+        elif self.path == "/get-config":
+            self.get_file_contents()
         else:
             self.err_not_found()
 
     # API request handler
     def do_POST(self):
-        self.send_response(200)
-        self.end_headers()
+        if self.path == "/put-config":
+            self.put_file_contents()
+        else:
+            self.err_not_found()
     
     def get_info(self):
         self.send_response(200)
         self.end_headers()
         self.wfile.write(b"BlackBox webctl\n")
         self.wfile.write(b"University of Southampton\n")
-        self.wfile.write(b"---------------------------------\n")
-        self.wfile.write("Package version:            {VER}\n".format(VER=VERSION).encode())
+        self.wfile.write(b"---------------------------------------------------------\n")
+        self.wfile.write(f"Port: {PORT}\n".encode())
+        self.wfile.write("Package version: {VER}\n".format(VER=VERSION).encode())
+        self.wfile.write(f"Configuration file location: {CONFIG_FILE_LOCATION}\n".encode())
+    
+    def get_file_contents(self):
+        self.send_response(200)
+        self.send_header("Content-Type", "text/yaml")
+        self.end_headers()
+        with open(CONFIG_FILE_LOCATION, "r") as file:
+            self.wfile.write(file.read().encode())
+    
+    def put_file_contents(self):
+        self.send_response(200)
+        self.end_headers()
+        content_length = int(self.headers["Content-Length"])
+        with open(CONFIG_FILE_LOCATION, "w") as file:
+            file.write(self.rfile.read(content_length).decode())
 
     def err_not_found(self):
         self.send_response(404)
