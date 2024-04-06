@@ -11,14 +11,14 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/info":
             self.get_info()
-        elif self.path == "/get-config":
+        elif self.path == "/api/config":
             self.get_file_contents()
         else:
             self.err_not_found()
 
     # API request handler
     def do_POST(self):
-        if self.path == "/put-config":
+        if self.path == "/api/config":
             self.put_file_contents()
         else:
             self.err_not_found()
