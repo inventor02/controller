@@ -4,7 +4,7 @@ import sys
 import signal
 from common.build import *
 
-PORT = sys.argv[1] if len(sys.argv) > 1 else 80
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 80
 CONFIG_FILE_LOCATION = sys.argv[2] if len(sys.argv) > 2 else "config.yaml"
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -36,12 +36,14 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def get_file_contents(self):
         self.send_response(200)
         self.send_header("Content-Type", "text/yaml")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         with open(CONFIG_FILE_LOCATION, "r") as file:
             self.wfile.write(file.read().encode())
     
     def put_file_contents(self):
         self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         content_length = int(self.headers["Content-Length"])
         with open(CONFIG_FILE_LOCATION, "w") as file:
