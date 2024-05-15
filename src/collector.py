@@ -42,7 +42,7 @@ class Collector:
         # get current date
         now = datetime.datetime.now()
         date = now.date().isoformat()
-        filename = '/var/log/data/' + date + '.csv'
+        filename = '/var/data/' + date + '.csv'
         line = now.isoformat() + ',' + data['lat'] + ',' + data['long'] + ',' + data['roll'] + ',' + data['pitch'] + ',' + data['yaw'] + ',' + data['gs'];
         needs_header = file.exists(filename) == False
         with open(filename, 'a') as file:
