@@ -21,7 +21,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         else:
             if self.path == "/":
                 self.path = "/index.html"
-            return http.server.SimpleHTTPRequestHandler.do_GET(self)
+            return super().do_GET()
 
     # API request handler
     def do_POST(self):
