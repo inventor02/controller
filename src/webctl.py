@@ -18,6 +18,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             self.get_info()
         elif self.path == "/api/config":
             self.get_file_contents()
+        elif self.path == "/api/killall":
+            self.kill()
         else:
             if self.path == "/":
                 self.path = "/index.html"
@@ -55,6 +57,11 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         content_length = int(self.headers["Content-Length"])
         with open(CONFIG_FILE_LOCATION, "w") as file:
             file.write(self.rfile.read(content_length).decode())
+    
+    def kill(self):
+        self.send_response(200)
+        self.end_headers()
+        raise KeyboardInterrupt()
 
     def err_not_found(self):
         self.send_response(404)
