@@ -48,7 +48,7 @@ class Collector:
         with open(filename, 'a') as file:
             if needs_header:
                 file.write('time,lat,long,roll,pitch,yaw,gs\n')
-            file.write(data + '\n')
+            file.write(line + '\n')
 
     def run(self):
         while True:
