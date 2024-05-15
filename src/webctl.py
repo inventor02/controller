@@ -6,15 +6,22 @@ from common.build import *
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 80
 CONFIG_FILE_LOCATION = sys.argv[2] if len(sys.argv) > 2 else "config.yaml"
+DOCROOT = sys.argv[3] if len(sys.argv) > 3 else "/var/www/html"
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
+    # set docroot as /var/www/html
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=DOCROOT, **kwargs)
+
     def do_GET(self):
         if self.path == "/info":
             self.get_info()
         elif self.path == "/api/config":
             self.get_file_contents()
         else:
-            self.err_not_found()
+            if self.path == "/":
+                self.path = "/index.html"
+            return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
     # API request handler
     def do_POST(self):
