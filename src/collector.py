@@ -59,5 +59,5 @@ class Collector:
 
 if __name__ == '__main__':
     print('[collector] "You look fun! Wanna play?"')
-    collector = Collector()
+    collector = Collector("/etc/blackbox/config.yaml")
     collector.run()
