@@ -1,5 +1,6 @@
 import datetime
 import serial
+import os.path
 
 class Collector:
     def __init__(self, config):
@@ -47,7 +48,7 @@ class Collector:
         date = now.date().isoformat()
         filename = '/var/data/' + date + '.csv'
         line = now.isoformat() + ',' + str(data['lat']) + ',' + str(data['long']) + ',' + str(data['roll']) + ',' + str(data['pitch']) + ',' + str(data['yaw']) + ',' + str(data['gs']);
-        needs_header = file.exists(filename) == False
+        needs_header = os.path.isfile(filename) == False
         with open(filename, 'a') as file:
             if needs_header:
                 file.write('time,lat,long,roll,pitch,yaw,gs\n')
