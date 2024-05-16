@@ -8,7 +8,7 @@ class Collector:
         self.start_time = datetime.datetime.now()
 
     def collect(self):
-        line = self.serial.readline()
+        line = self.serial.readline().decode().strip()
         if line == '':
             return None
         
@@ -53,7 +53,7 @@ class Collector:
         while True:
             data = self.collect()
             if data is not None:
-                print('got: ' + data)
+                print(data)
                 self.commit_to_fs(data)
 
 if __name__ == '__main__':
