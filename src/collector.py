@@ -4,8 +4,7 @@ import serial
 class Collector:
     def __init__(self, config):
         self.config = config
-        self.port = '/dev/ttyAMA4'
-        self.serial = serial.Serial(self.port, 115200, timeout=None)
+        self.serial = serial.Serial('/dev/ttyAMA4', 115200, timeout=None)
         self.start_time = datetime.datetime.now()
 
     def collect(self):
