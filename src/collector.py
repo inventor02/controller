@@ -8,7 +8,11 @@ class Collector:
         self.start_time = datetime.datetime.now()
 
     def collect(self):
-        line = self.serial.readline().decode().strip()
+        try:
+            line = self.serial.readline().decode().strip()
+        except UnicodeDecodeError:
+            return
+        
         if line == '':
             return None
         
