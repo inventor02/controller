@@ -11,8 +11,8 @@ class Collector:
         try:
             line = self.serial.readline().decode().strip()
         except UnicodeDecodeError:
-            return
-        
+            return None
+
         if line == '':
             return None
         
