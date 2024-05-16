@@ -55,7 +55,7 @@ class Collector:
             data = self.collect()
             if data is not None:
                 print('got: ' + data)
-                # send over zmq
+                self.commit_to_fs(data)
 
 if __name__ == '__main__':
     print('[collector] "You look fun! Wanna play?"')
