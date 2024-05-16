@@ -46,7 +46,7 @@ class Collector:
         now = datetime.datetime.now()
         date = now.date().isoformat()
         filename = '/var/data/' + date + '.csv'
-        line = now.isoformat() + ',' + data['lat'] + ',' + data['long'] + ',' + data['roll'] + ',' + data['pitch'] + ',' + data['yaw'] + ',' + data['gs'];
+        line = now.isoformat() + ',' + str(data['lat']) + ',' + str(data['long']) + ',' + str(data['roll']) + ',' + str(data['pitch']) + ',' + str(data['yaw']) + ',' + str(data['gs']);
         needs_header = file.exists(filename) == False
         with open(filename, 'a') as file:
             if needs_header:
